@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emine Haksever | Sanat & Fotoğraf Portfolyosu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #090a0f;
+      --card-bg: #12141c;
+      --card-hover: #181b26;
+      --border: #232738;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      padding: 90px 0 50px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: var(--accent-glow);
+      color: var(--accent);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 2.75rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #ffffff 40%, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .artist-statement {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 760px;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+
+    /* Gallery Section */
+    .gallery-section {
+      padding: 60px 0 100px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 36px;
+    }
+
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .section-count {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 28px;
+    }
+
+    /* Card */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      background: var(--card-hover);
+      border-color: rgba(56, 189, 248, 0.4);
+      box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.7);
+    }
+
+    .img-wrapper {
+      width: 100%;
+      height: 380px;
+      background: #0d0f14;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .card:hover .img-wrapper img {
+      transform: scale(1.04);
+    }
+
+    .card-content {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .tag {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .card-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-bottom: 16px;
+      flex-grow: 1;
+    }
+
+    .card-meta {
+      font-size: 0.78rem;
+      color: #64748b;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 12px;
+    }
+
+    /* Lightbox Modal */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.94);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 85vh;
+      border-radius: 8px;
+      object-fit: contain;
+      box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      color: #fff;
+      font-size: 2.2rem;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    .lightbox-close:hover {
+      opacity: 1;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 50px 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .links {
+      margin-top: 14px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .links a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.1rem; }
+      .grid { grid-template-columns: 1fr; }
+      .img-wrapper { height: 320px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="badge">Bilgisayar Mühendisliği & Görsel Kültür</div>
+      <h1>Emine Haksever</h1>
+      <p class="artist-statement">
+        Bir bilgisayar mühendisliği öğrencisi olarak teknolojiyi sadece algoritmik bir problem çözme aracı değil; mekânsal algı, ışık ve görsel kompozisyonla kesişen bir ifade biçimi olarak görüyorum. Bu portfolyo; kentsel dokularda yakaladığım geometrik perspektifleri, doğadaki dinamik hareketleri ve dijital sinyal akışının ışık sanatıyla somutlaşan formlarını bir araya getirmektedir.
+      </p>
+    </header>
+
+    <main class="gallery-section">
+      <div class="section-header">
+        <h2 class="section-title">Seçilmiş Çalışmalar</h2>
+        <span class="section-count">11 Eser</span>
+      </div>
+
+      <div class="grid">
+
+        <!-- 1. fiber.jpg -->
+        <article class="card" onclick="openLightbox('img/fiber.jpg')">
+          <div class="img-wrapper"><img src="img/fiber.jpg" alt="Dijital Yankı & Sinyal Akışı"></div>
+          <div class="card-content">
+            <span class="tag">Işık & Teknoloji Enstalasyonu</span>
+            <h3 class="card-title">Dijital Yankı & Sinyal Akışı</h3>
+            <p class="card-desc">Veri iletimi ve sinyal akışının fiziksel alanda ışık lifleriyle somutlaşması. Bilgisayar biliminin soyut yapısının görsel bir deneyime dönüşümü.</p>
+            <div class="card-meta">Van Gogh:Işığın izinde/İstanbul — 2026</div>
+          </div>
+        </article>
+
+        <!-- 2. balikbendi.jpg -->
+        <article class="card" onclick="openLightbox('img/balikbendi.jpg')">
+          <div class="img-wrapper"><img src="img/balikbendi.jpg" alt="Direnç & Akıntıya Karşı"></div>
+          <div class="card-content">
+            <span class="tag">Doğa & Dinamik Hareket</span>
+            <h3 class="card-title">Direnç & Akıntıya Karşı</h3>
+            <p class="card-desc">Akıntıya karşı sıçrayan balıkların oluşturduğu ritmik hareket. Hızlı enstantane kullanımıyla suyun köpüğü ve doğanın dinamik mücadelesi.</p>
+            <div class="card-meta">Van / Erciş Balık Bendi — 2026</div>
+          </div>
+        </article>
+
+        <!-- 3. yerebatan-sutun.jpg -->
+        <article class="card" onclick="openLightbox('img/yerebatan-sutun.jpg')">
+          <div class="img-wrapper"><img src="img/yerebatan-sutun.jpg" alt="Sonsuzluk & Ritmik Perspektif"></div>
+          <div class="card-content">
+            <span class="tag">Tarihsel Strüktür</span>
+            <h3 class="card-title">Sonsuzluk & Ritmik Perspektif</h3>
+            <p class="card-desc">Tek nokta perspektifiyle uzanan sütun diziliminin su yüzeyindeki simetrik yansıması ve ışık-gölge ritmi.</p>
+            <div class="card-meta">Yerebatan Sarnıcı, İstanbul — 2026</div>
+          </div>
+        </article>
+
+        <!-- 4. memleket.jpg -->
+        <article class="card" onclick="openLightbox('img/memleket.jpg')">
+          <div class="img-wrapper"><img src="img/memleket.jpg" alt="Zaman, Kış ve Sınır"></div>
+          <div class="card-content">
+            <span class="tag">Mekân & Atmosfer</span>
+            <h3 class="card-title">Zaman, Kış ve Sınır</h3>
+            <p class="card-desc">Saat kulesinin dikey geometrisi, kış dokusu ve arka plandaki deniz feneri ile fırtınalı gökyüzünün oluşturduğu dramatik kontrast.</p>
+            <div class="card-meta">Van / Erciş— 2026</div>
+          </div>
+        </article>
+
+        <!-- 5. balat-evler.jpg -->
+        <article class="card" onclick="openLightbox('img/balat-evler.jpg')">
+          <div class="img-wrapper"><img src="img/balat-evler.jpg" alt="Kentsel Doku & Renk Diyaloğu"></div>
+          <div class="card-content">
+            <span class="tag">Kentsel Bellek</span>
+            <h3 class="card-title">Kentsel Doku & Renk Diyaloğu</h3>
+            <p class="card-desc">Geleneksel ahşap konut mimarisinde canlı renk blokları, pencere motifleri ve kentsel kimliğin yarattığı armoni.</p>
+            <div class="card-meta">Balat, İstanbul — 2026</div>
+          </div>
+        </article>
+
+        <!-- 6. galata.jpg -->
+        <article class="card" onclick="openLightbox('img/galata.jpg')">
+          <div class="img-wrapper"><img src="img/galata.jpg" alt="Tarihi Yarımada & Kentsel Katmanlar"></div>
+          <div class="card-content">
+            <span class="tag">Panoramik Mimari</span>
+            <h3 class="card-title">Tarihi Yarımada & Kentsel Katmanlar</h3>
+            <p class="card-desc">Yüksek bakış açısından Haliç hattı, çatı silüetleri ve kentsel dokunun katmanlı derinlik analizi.</p>
+            <div class="card-meta">Galata Kulesi, İstanbul — 2026</div>
+          </div>
+        </article>
+
+        <!-- 7. eskisehir-sokak.jpg -->
+        <article class="card" onclick="openLightbox('img/eskisehir-sokak.jpg')">
+          <div class="img-wrapper"><img src="img/eskisehir-sokak.jpg" alt="Durağan An & Kentsel Doku"></div>
+          <div class="card-content">
+            <span class="tag">Sokak & Zaman</span>
+            <h3 class="card-title">Durağan An & Kentsel Doku</h3>
+            <p class="card-desc">Kentsel mobilyaların ve dökülen sonbahar yapraklarının park köşesinde yarattığı sakin ve durağan anın kadraja yansıması.</p>
+            <div class="card-meta">Eskişehir — 2026</div>
+          </div>
+        </article>
+
+        <!-- 8. tarihi-ev.jpg -->
+        <article class="card" onclick="openLightbox('img/tarihi-ev.jpg')">
+          <div class="img-wrapper"><img src="img/tarihi-ev.jpg" alt="Hafıza & Geleneksel İç Mekân"></div>
+          <div class="card-content">
+            <span class="tag">Geleneksel Yaşam</span>
+            <h3 class="card-title">Hafıza & Geleneksel İç Mekân</h3>
+            <p class="card-desc">Geleneksel yaşam alanlarındaki doku, ışık ve zamansallık ilişkisi. Doğal ışığın ahşap ve sıva üzerindeki sakin iç mekân dili.</p>
+            <div class="card-meta">Doktorun Evi,Yalova — 2026</div>
+          </div>
+        </article>
+
+        <!-- 9. kadikoy.jpg -->
+        <article class="card" onclick="openLightbox('img/kadikoy.jpg')">
+          <div class="img-wrapper"><img src="img/kadikoy.jpg" alt="Ufuk Çizgisi & Akşam Işıkları"></div>
+          <div class="card-content">
+            <span class="tag">Işık & Hareket</span>
+            <h3 class="card-title">Ufuk Çizgisi & Akşam Işıkları</h3>
+            <p class="card-desc">Günün kapanışında gökyüzündeki bulut katmanları, su yüzeyindeki altın yansımalar ve silüet halindeki martıların dengesi.</p>
+            <div class="card-meta">Kadıköy Sahil, İstanbul — 2026</div>
+          </div>
+        </article>
+
+        <!-- 10. gun-batimi.jpg -->
+        <article class="card" onclick="openLightbox('img/gun-batimi.jpg')">
+          <div class="img-wrapper"><img src="img/gun-batimi.jpg" alt="Deniz Üstünde Dinginlik"></div>
+          <div class="card-content">
+            <span class="tag">Doğa & Işık Kırılımları</span>
+            <h3 class="card-title">Deniz Üstünde Dinginlik</h3>
+            <p class="card-desc">Işığın deniz dalgaları üzerindeki kırılımları ve tekil bir hareketin dinginlikle birleştiği anın minimal anlatımı.</p>
+            <div class="card-meta">Dijital Fotoğrafçılık — 2026</div>
+          </div>
+        </article>
+
+        <!-- 11. filamingo.jpg -->
+        <article class="card" onclick="openLightbox('img/filamingo.jpg')">
+          <div class="img-wrapper"><img src="img/filamingo.jpg" alt="Organik Ritim & Form"></div>
+          <div class="card-content">
+            <span class="tag">Doğa & Doku</span>
+            <h3 class="card-title">Organik Ritim & Form</h3>
+            <p class="card-desc">Su yüzeyinde bir araya gelen formların oluşturduğu doğal geometri, renk tonları ve kaya strüktürünün yarattığı zıtlık.</p>
+            <div class="card-meta">Doğa Fotoğrafçılığı — 2026</div>
+          </div>
+        </article>
+
+      </div>
+    </main>
+
+    <footer>
+      <p>© 2026 Emine Haksever • Bilgisayar Mühendisliği & Sanat Portfolyosu</p>
+      <div class="links">
+        <a href="mailto:eminehaksever13@gmail.com">E-posta</a>
+        <a href="https://linkedin.com/in/emine-haksever" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/EmineHaksever" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="Büyütülmüş Görsel" onclick="event.stopPropagation()">
+  </div>
+
+  <script>
+    function openLightbox(src) {
+      const lb = document.getElementById('lightbox');
+      const img = document.getElementById('lightbox-img');
+      img.src = src;
+      lb.classList.add('active');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
+</body>
+</html>
